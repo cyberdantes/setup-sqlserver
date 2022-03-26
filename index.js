@@ -22,10 +22,11 @@ function isWindows() {
   return process.platform == 'win32';
 }
 
+const password = process.env['INPUT_PASSWORD'];
 function waitForReady() {
-  console.log("Waiting for server to be ready");
+  console.log("Waiting for server to be ready");  
   for (let i = 0; i < 30; i++) {
-    let ret = spawnSync('/opt/mssql-tools/bin/sqlcmd', ['-U', 'SA', '-P', 'YourStrong!Passw0rd', '-Q', 'SELECT @@VERSION']);
+    let ret = spawnSync('/opt/mssql-tools/bin/sqlcmd', ['-U', 'SA', '-P', password, '-Q', 'SELECT @@VERSION']);
     if (ret.status === 0) {
       break;
     }
@@ -62,6 +63,7 @@ if (isMac()) {
 
   // install
   const tmpDir = useTmpDir();
+  const serverInstance = process.env['INPUT_SERVER-INSTANCE'];
   run(`curl -Ls -o SQL${sqlserverVersion}-SSEI-Dev.exe ${url}`);
   run(`SQL${sqlserverVersion}-SSEI-Dev.exe /Action=Download /MediaPath="${tmpDir}" /MediaType=CAB /Quiet`);
   run(`SQLServer${sqlserverVersion}-DEV-x64-ENU.exe /X:${tmpDir}\\Media /QS`);
@@ -69,10 +71,10 @@ if (isMac()) {
     `/IACCEPTSQLSERVERLICENSETERMS`,
     `/ACTION="install"`,
     `/FEATURES=SQL,Tools`,
-    `/INSTANCENAME=MSSQLSERVER`,
+    `/INSTANCENAME=${serverInstance}`,
     `/SQLSVCACCOUNT="NT AUTHORITY\\SYSTEM"`,
     `/SQLSYSADMINACCOUNTS="BUILTIN\\ADMINISTRATORS"`,
-    `/SAPWD="YourStrong!Passw0rd"`,
+    `/SAPWD="${password}"`,
     `/SECURITYMODE=SQL`,
     `/ERRORREPORTING=0`
   ];
@@ -89,7 +91,7 @@ if (isMac()) {
   // run(`sudo apt-get update -o Dir::Etc::sourcelist="sources.list.d/mssql-server-${sqlserverVersion}.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"`);
   run(`sudo apt-get update`);
   run(`sudo apt-get install mssql-server mssql-tools`);
-  run(`sudo MSSQL_SA_PASSWORD='YourStrong!Passw0rd' MSSQL_PID=developer /opt/mssql/bin/mssql-conf -n setup accept-eula`);
+  run(`sudo MSSQL_SA_PASSWORD='${password}' MSSQL_PID=developer /opt/mssql/bin/mssql-conf -n setup accept-eula`);
 
   waitForReady();
 

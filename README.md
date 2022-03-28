@@ -55,7 +55,7 @@ Test against multiple versions
 ```
 ## Password
 
-Specify a password (defaults to StrongP@assword!)
+Specify a password (defaults to YourStrong!Passw0rd)
 
 ```yml
     - uses: cyberdantes/setup-sqlserver@v1

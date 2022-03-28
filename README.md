@@ -6,14 +6,14 @@ The missing action for SQL Server :tada:
 - Works on Linux and Windows
 - Supports different versions
 
-[![Build Status](https://github.com/ankane/setup-sqlserver/workflows/build/badge.svg?branch=v1)](https://github.com/ankane/setup-sqlserver/actions)
+[![Build Status](https://github.com/cyberdantes/setup-sqlserver/workflows/build/badge.svg?branch=v1)](https://github.com/cyberdantes/setup-sqlserver/actions)
 
 ## Getting Started
 
 Add it as a step to your workflow
 
 ```yml
-    - uses: ankane/setup-sqlserver@v1
+    - uses: cyberdantes/setup-sqlserver@v1
       with:
         accept-eula: true
 ```
@@ -25,7 +25,7 @@ Add it as a step to your workflow
 Specify a version (defaults to the latest)
 
 ```yml
-    - uses: ankane/setup-sqlserver@v1
+    - uses: cyberdantes/setup-sqlserver@v1
       with:
         accept-eula: true
         sqlserver-version: 2019
@@ -48,11 +48,23 @@ Test against multiple versions
       matrix:
         sqlserver-version: [2019, 2017]
     steps:
-    - uses: ankane/setup-sqlserver@v1
+    - uses: cyberdantes/setup-sqlserver@v1
       with:
         accept-eula: true
         sqlserver-version: ${{ matrix.sqlserver-version }}
 ```
+## Password
+
+Specify a password (defaults to StrongP@assword!)
+
+```yml
+    - uses: cyberdantes/setup-sqlserver@v1
+      with:
+        accept-eula: true
+        sqlserver-version: 2019
+        password: MyCurrentSAPassword
+```
+
 
 ## Extra Steps
 
@@ -67,15 +79,6 @@ Run queries
 ```yml
     - run: sqlcmd -U SA -P 'YourStrong!Passw0rd' -d testdb -Q 'SELECT @@VERSION'
 ```
-
-## Related Actions
-
-- [setup-postgres](https://github.com/ankane/setup-postgres)
-- [setup-mysql](https://github.com/ankane/setup-mysql)
-- [setup-mariadb](https://github.com/ankane/setup-mariadb)
-- [setup-mongodb](https://github.com/ankane/setup-mongodb)
-- [setup-elasticsearch](https://github.com/ankane/setup-elasticsearch)
-- [setup-opensearch](https://github.com/ankane/setup-opensearch)
 
 ## Resources
 
@@ -93,7 +96,7 @@ Windows
 
 Everyone is encouraged to help improve this project. Here are a few ways you can help:
 
-- [Report bugs](https://github.com/ankane/setup-sqlserver/issues)
-- Fix bugs and [submit pull requests](https://github.com/ankane/setup-sqlserver/pulls)
+- [Report bugs](https://github.com/cyberdantes/setup-sqlserver/issues)
+- Fix bugs and [submit pull requests](https://github.com/cyberdantes/setup-sqlserver/pulls)
 - Write, clarify, or fix documentation
 - Suggest or add new features
